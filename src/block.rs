@@ -1,6 +1,4 @@
-extern crate bincode;
-
-// use bincode::{serialize,deserialize};
+use bincode;
 use serde::{Deserialize, Serialize};
 use sled::IVec;
 

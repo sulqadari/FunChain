@@ -1,9 +1,11 @@
-use crate::block;
+use std::borrow::Borrow;
 use num_bigint::BigInt;
 use num_bigint::Sign;
 use data_encoding::HEXLOWER;
+use crate::block;
 
-const MAX_NONCE: i64 = 0x7FFF_FFFF_FFFF_FFFF;
+const TARGET_BITS: i32 = 8;
+const MAX_NONCE: i64 = i64::MAX;
 
 pub struct ProofOfWork {
 	block:  block::Block,
@@ -26,7 +28,7 @@ impl ProofOfWork {
 			hash = crate::sha256_digest(data.as_slice());
 			let hash_int = BigInt::from_bytes_be(Sign::Plus, hash.as_slice());
 	
-			if (hash_int.lt(self.target.borrow())) {
+			if hash_int.lt(self.target.borrow()) {
 				println!("{}", HEXLOWER.encode(hash.as_slice()));
 				break;
 			} else {
